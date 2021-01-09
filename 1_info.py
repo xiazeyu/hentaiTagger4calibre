@@ -21,7 +21,7 @@ zipNote = {}
 
 for curDirIndex in range(len(dirList)):
   curDir = dirList[curDirIndex]
-  print(f'===== start processing {curDirIndex}/{len(dirList)-1} =====')
+  print(f'===== start processing {curDirIndex+1}/{len(dirList)} =====')
   print(f'  path: {curDir}')
   infoPath = curDir / 'info.json'
   infoText = infoPath.read_text(encoding='UTF-8')
@@ -141,7 +141,7 @@ for curDirIndex in range(len(dirList)):
   zipNote[curDir.name] = json.dumps(jsonData, ensure_ascii=False)
   
   
-  print(f'===== finish processing {curDirIndex}/{len(dirList)-1} =====\n')
+  print(f'===== finish processing {curDirIndex+1}/{len(dirList)} =====\n')
 
 zipNotePath = cwd / 'zipNote.json'
 zipNotePath.write_text(json.dumps(zipNote, ensure_ascii=False), encoding='UTF-8')
