@@ -110,7 +110,7 @@ for curDirIndex in range(len(dirList)):
   <AgeRating>{info['AgeRating']}</AgeRating>
   <Manga>{info['Manga']}</Manga>
   <Characters>{info['Characters']}</Characters>
-  <ScanInformation>{infoJson}</ScanInformation>
+  <ScanInformation><![CDATA[{infoJson}]]></ScanInformation>
 </ComicInfo>
 '''
   
