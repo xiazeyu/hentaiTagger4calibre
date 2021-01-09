@@ -16,7 +16,7 @@ zipNote = json.loads(zipNoteStore)
 
 for fileIndex in range(len(fileList)):
   file = fileList[fileIndex]
-  print(f'===== start processing {fileIndex}/{len(fileList)-1} =====')
+  print(f'===== start processing {fileIndex+1}/{len(fileList)} =====')
   print(f'  file: {file.name}')
 
   cmpJson = zipNote[file.stem]
@@ -36,4 +36,4 @@ for fileIndex in range(len(fileList)):
   del extJson['ComicBookInfo/1.0']['comments']
   pp.pprint(extJson)
   
-  print(f'===== finish processing {fileIndex}/{len(fileList)-1} =====\n')
+  print(f'===== finish processing {fileIndex+1}/{len(fileList)} =====\n')
