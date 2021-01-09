@@ -95,21 +95,21 @@ for curDirIndex in range(len(dirList)):
   
   xmlData = f'''<?xml version="1.0"?>
 <ComicInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Title>{info['Title']}</Title>
-  <Series>{info['Title']}</Series>
-  <Year>{info['Year']}</Year>
-  <Month>{info['Month']}</Month>
-  <Day>{info['Day']}</Day>
-  <Writer>{info['Writer']}</Writer>
-  <Publisher>{info['Publisher']}</Publisher>
-  <Imprint>{info['Imprint']}</Imprint>
-  <Genre>{info['Genre']}</Genre>
-  <Web>{info['Web']}</Web>
-  <PageCount>{info['PageCount']}</PageCount>
-  <LanguageISO>{info['LanguageISO']}</LanguageISO>
-  <AgeRating>{info['AgeRating']}</AgeRating>
-  <Manga>{info['Manga']}</Manga>
-  <Characters>{info['Characters']}</Characters>
+  <Title><![CDATA[{info['Title']}]]></Title>
+  <Series><![CDATA[{info['Title']}]]></Series>
+  <Year><![CDATA[{info['Year']}]]></Year>
+  <Month><![CDATA[{info['Month']}]]></Month>
+  <Day><![CDATA[{info['Day']}]]></Day>
+  <Writer><![CDATA[{info['Writer']}]]></Writer>
+  <Publisher><![CDATA[{info['Publisher']}]]></Publisher>
+  <Imprint><![CDATA[{info['Imprint']}]]></Imprint>
+  <Genre><![CDATA[{info['Genre']}]]></Genre>
+  <Web><![CDATA[{info['Web']}]]></Web>
+  <PageCount><![CDATA[{info['PageCount']}]]></PageCount>
+  <LanguageISO><![CDATA[{info['LanguageISO']}]]></LanguageISO>
+  <AgeRating><![CDATA[{info['AgeRating']}]]></AgeRating>
+  <Manga><![CDATA[{info['Manga']}]]></Manga>
+  <Characters><![CDATA[{info['Characters']}]]></Characters>
   <ScanInformation><![CDATA[{infoJson}]]></ScanInformation>
 </ComicInfo>
 '''
