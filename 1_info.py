@@ -129,7 +129,7 @@ for curDirIndex in range(len(dirList)):
   jsonData['ComicBookInfo/1.0']['comments'] = json.dumps(infoJson, ensure_ascii=False)
   jsonData['ComicBookInfo/1.0']['genre'] = info['Genre']
   jsonData['ComicBookInfo/1.0']['language'] = info['LanguageISO']
-  jsonData['ComicBookInfo/1.0']['rating'] = math.floor(info['Rating']*2)
+  jsonData['ComicBookInfo/1.0']['rating'] = math.floor(info['Rating']*2) or 1
   jsonData['ComicBookInfo/1.0']['credits'] = list(map(lambda x: {'person': x, 'role': 'Writer'}, info['writer']))
   jsonData['ComicBookInfo/1.0']['tags'] = info['tags']
   
