@@ -7,6 +7,8 @@ import re
 import urllib.parse
 ##import shutil
 
+verbose = False
+
 pp = pprint.PrettyPrinter(indent=2)
 
 cwd = Path.cwd()
@@ -91,7 +93,8 @@ for curDirIndex in range(len(dirList)):
   info['LanguageISO'] = pycountry.languages.get(name=info['Language']).alpha_2
 
 
-  pp.pprint(info)
+  if verbose:
+    pp.pprint(info)
   
   xmlData = f'''<?xml version="1.0"?>
 <ComicInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
