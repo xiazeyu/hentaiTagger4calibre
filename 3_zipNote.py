@@ -3,6 +3,8 @@ import json
 import pprint
 import zipfile
 
+verbose = False
+
 pp = pprint.PrettyPrinter(indent=2)
 
 cwd = Path.cwd()
@@ -34,6 +36,7 @@ for fileIndex in range(len(fileList)):
   file.rename(newName)
  
   del extJson['ComicBookInfo/1.0']['comments']
-  pp.pprint(extJson)
+  if verbose:
+    pp.pprint(extJson)
   
   print(f'===== finish processing {fileIndex+1}/{len(fileList)} =====\n')
