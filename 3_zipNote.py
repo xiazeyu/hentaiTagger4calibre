@@ -35,7 +35,6 @@ for fileIndex in range(len(fileList)):
   newName = file.parent / f'{file.stem}.cbz'
   file.rename(newName)
  
-  del extJson['ComicBookInfo/1.0']['comments']
   if verbose:
     pp.pprint(extJson)
   

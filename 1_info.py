@@ -31,13 +31,13 @@ for curDirIndex in range(len(dirList)):
 
   info = {}
   
-  info
   info['Title'] = infoJson['gallery_info']['title_original'] or infoJson['gallery_info']['title']
   info['Genre'] = infoJson['gallery_info']['category']
   info['Language'] = infoJson['gallery_info']['language']
-  info['Year'] = infoJson['gallery_info']['upload_date'][0]
-  info['Month'] = infoJson['gallery_info']['upload_date'][1]
-  info['Day'] =  infoJson['gallery_info']['upload_date'][2]
+  info['UploadDate'] = infoJson['gallery_info']['upload_date']
+  info['Year'] = info['UploadDate'][0]
+  info['Month'] = info['UploadDate'][1]
+  info['Day'] =  info['UploadDate'][2]
   info['PageCount'] = infoJson['gallery_info_full']['image_count']
   info['Rating'] = infoJson['gallery_info_full']['rating']['average']
   info['Publisher'] = urllib.parse.unquote(infoJson['gallery_info_full']['uploader'])
@@ -92,6 +92,7 @@ for curDirIndex in range(len(dirList)):
   
   info['LanguageISO'] = pycountry.languages.get(name=info['Language']).alpha_2
 
+  info['Comments'] = f'''<div><p>Web: <a href="{info['Web']}">{info['Web']}</a></p><p>Rating: {info['Rating']}, {infoJson['gallery_info_full']['rating']['count']}</p><p>PageCount: {info['PageCount']}</p><p>Genre: {info['Genre']}</p><p>Imprint: {info['Imprint']}</p><p>AgeRating: {info['AgeRating']}</p><p>UploadDate: {info['UploadDate']}</p></div>'''
 
   if verbose:
     pp.pprint(info)
@@ -113,7 +114,7 @@ for curDirIndex in range(len(dirList)):
   <AgeRating><![CDATA[{info['AgeRating']}]]></AgeRating>
   <Manga><![CDATA[{info['Manga']}]]></Manga>
   <Characters><![CDATA[{info['Characters']}]]></Characters>
-  <ScanInformation><![CDATA[{infoJson}]]></ScanInformation>
+  <ScanInformation><![CDATA[{info['Comments']}]]></ScanInformation>
 </ComicInfo>
 '''
   
@@ -129,7 +130,7 @@ for curDirIndex in range(len(dirList)):
   jsonData['ComicBookInfo/1.0']['publisher'] = info['Publisher']
   jsonData['ComicBookInfo/1.0']['publicationMonth'] = info['Month']
   jsonData['ComicBookInfo/1.0']['publicationYear'] = info['Year']
-  jsonData['ComicBookInfo/1.0']['comments'] = json.dumps(infoJson, ensure_ascii=False)
+  jsonData['ComicBookInfo/1.0']['comments'] = info['Comments']
   jsonData['ComicBookInfo/1.0']['genre'] = info['Genre']
   jsonData['ComicBookInfo/1.0']['language'] = info['LanguageISO']
   jsonData['ComicBookInfo/1.0']['rating'] = math.floor(info['Rating']*2) or 1
