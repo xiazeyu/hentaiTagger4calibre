@@ -11,6 +11,7 @@ This simple python3 app can convert metadata in archive zip file downloaded from
 
 - A windows machine
 - Simple make some modifications in `2_compress.cmd` and you can make your own linux version xD.
+- A plugin called [Embeded Comic metadata](https://github.com/dickloraine/EmbedComicMetadata) should be installed on calibre.
 
 ```bash
 sudo apt install python p7zip # choco install python 7zip
