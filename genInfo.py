@@ -1,3 +1,4 @@
+from pathlib import Path
 import json
 import pprint
 import pycountry
@@ -6,6 +7,20 @@ import sys
 import urllib.parse
 
 pp = pprint.PrettyPrinter(indent=2)
+
+cwd = Path.cwd()
+utilsPath = cwd / 'utils'
+transPath = utilsPath / 'db.text.json'
+trans = json.loads(transPath.read_text(encoding='UTF-8'))
+
+def getCore(st):
+  return re.sub(u"\\(.*?\\)|\\（.*?）|\\{.*?}|\\[.*?]|\\【.*?】", "", st)
+
+def gett(index, st):
+  if st.lower() in trans['data'][index]['data']:
+    return trans['data'][index]['data'][st]['name']
+  else:
+    return None
 
 def genInfo(dir, verbose = False):
   try:
@@ -37,30 +52,69 @@ def genInfo(dir, verbose = False):
     info['Imprint'] = info['Imprint'].group(1)
   else:
     info['Imprint'] = infoJson['gallery_info_full']['source_site']
-    
+ 
+  # begin tags
   info['tags'] = []
-  for t in infoJson['gallery_info']['tags']:
-    for tag in infoJson['gallery_info']['tags'][t]:
-      info['tags'].append(tag)
+
+  info['tags'].append(info['Genre'])
+  if gett(1, info['Genre']) != None:
+    info['tags'].append(gett(1, info['Genre']))
+
+  keywords = [
+    ['language', 2],
+    ['parody', 3],
+    ['character', 4],
+    ['male', 7],
+    ['female', 8],
+    ['misc', 9],
+  ]
+
+  for typ in keywords:
+    if typ[0] in infoJson['gallery_info']['tags']:
+      for tag in infoJson['gallery_info']['tags'][typ[0]]:
+        info['tags'].append(tag)
+        if gett(typ[1], tag) != None:
+          info['tags'].append(gett(typ[1], tag))
+  
   tagInTitle=re.findall(r'\[(.+?)\]|\((.+?)\)|【(.+?)】|（(.+?)）', infoJson['gallery_info']['title'])
   for x in tagInTitle:
     info['tags']+=list(x)
+  
   info['tags'] = sorted(list(set(info['tags'])))
   if '' in info['tags']:
     info['tags'].remove('')
 
+  # end tags
+
+  # begin writer
   info['writer'] = []
   if 'group' in infoJson['gallery_info']['tags']:
     for t in infoJson['gallery_info']['tags']['group']:
       info['writer'].append(t)
+      if gett(5, t) != None:
+        info['writer'].append(gett(5, t))
   if 'artist' in infoJson['gallery_info']['tags']:
     for t in infoJson['gallery_info']['tags']['artist']:
       info['writer'].append(t)
-      
+      if gett(6, t) != None:
+        info['writer'].append(gett(6, t))
+  info['writer'] = sorted(list(set(info['writer'])))
+  # end writer
+
+  # begin characters
   info['characters'] = []
   if 'character' in infoJson['gallery_info']['tags']:
     for t in infoJson['gallery_info']['tags']['character']:
       info['characters'].append(t)
+      if gett(4, t) != None:
+        info['characters'].append(gett(4, t))
+  info['characters'] = sorted(list(set(info['characters'])))
+  # end characters
+
+  # begin series
+  info['series'] = getCore(info['Title'])
+  info['issue'] = 1
+  #end series
 
   if info['Genre'] == 'non-h':
     info['AgeRating'] = 'Teen'
@@ -74,9 +128,7 @@ def genInfo(dir, verbose = False):
 
   info['Writer'] = ', '.join(str(p) for p in info['writer'])
   info['Characters'] = ', '.join(str(p) for p in info['characters'])
-  
   info['LanguageISO'] = pycountry.languages.get(name=info['Language']).alpha_2
-
   info['Comments'] = f'''<div><p>Web: <a href="{info['Web']}">{info['Web']}</a></p><p>Rating: {info['Rating']}, {infoJson['gallery_info_full']['rating']['count']}</p><p>PageCount: {info['PageCount']}</p><p>Genre: {info['Genre']}</p><p>Imprint: {info['Imprint']}</p><p>AgeRating: {info['AgeRating']}</p><p>UploadDate: {info['UploadDate']}</p></div>'''
 
   if verbose:
