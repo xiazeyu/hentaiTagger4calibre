@@ -9,16 +9,13 @@ This simple python3 app can convert metadata in archive zip file downloaded from
 
 ### Requirements
 
-- A windows machine
-- Simple make some modifications in `2_compress.cmd` and you can make your own linux version xD.
+- A windows machine, linux not tested
 - A plugin called [Embeded Comic metadata](https://github.com/dickloraine/EmbedComicMetadata) should be installed on calibre.
 
 ```bash
-sudo apt install python p7zip # choco install python 7zip
-pip install pycountry 
+sudo apt install python p7zip # on windows: choco install python 7zip
+pip -r requirements.txt
 ```
-
-
 
 ### Usage
 
@@ -46,6 +43,6 @@ Work folder should look like this:
 ```
 
 - Make sure all the requirements are satisfied.
-- Run `python 1_info.py`, `2_compress.cmd`, `python 3_zipNote.py` in order.
+- Run `python main.py` in order.
 
 The final cbz files should appear in `out/` subfolder.
