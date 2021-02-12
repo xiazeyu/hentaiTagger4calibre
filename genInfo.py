@@ -14,7 +14,10 @@ transPath = utilsPath / 'db.text.json'
 trans = json.loads(transPath.read_text(encoding='UTF-8'))
 
 def getCore(st):
-  return re.sub(u"\\「.*?\\」|\\(.*?\\)|\\（.*?）|\\{.*?}|\\[.*?]|\\【.*?】", "", st).strip()
+  t1 = re.sub(u"\\「.*?\\」|\\(.*?\\)|\\（.*?）|\\{.*?}|\\[.*?]|\\【.*?】", "", st).strip()
+  if t1 == '':
+    return re.sub(u"\\(.*?\\)|\\（.*?）|\\{.*?}|\\[.*?]|\\【.*?】", "", st).strip()
+  return t1
 
 def getSeries(st):
   core = getCore(st)
