@@ -261,7 +261,7 @@ def genInfo(dir, verbose = False):
   if info['series'] == 'Karorfulmix♥EX':
     info['series'] = 'KARORFUL MIX EX'
 
-  cau = ['ー', '－', '-', ':', '：', '~', ']', '[', '(', ')', '「', '」', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']
+  cau = ['－', '-', ':', '：', '~', ']', '[', '(', ')', '「', '」', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']
   cauFlag = False
   for c in cau:
     if c in info['series']:
