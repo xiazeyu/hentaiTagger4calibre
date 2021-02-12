@@ -2,6 +2,7 @@ import requests
 from pathlib import Path
 import json
 import time
+from cookie import cookie
 
 cwd = Path.cwd()
 infPath = cwd / 'inf.json'
@@ -12,12 +13,6 @@ infStore = json.loads(infPath.read_text(encoding='UTF-8'))
 proxies = {
   'http': 'http://127.0.0.1:7890',
   'https': 'http://127.0.0.1:7890',
-}
-
-cookie = {
-  'ipb_member_id': '',
-  'ipb_pass_hash': '',
-  'igneous': '',
 }
 
 def getPage(url, s):
@@ -38,13 +33,15 @@ s.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit
 
 for i in infStore:
   counter += 1
+  if counter < 0: # when error occured, change this to continue
+    continue
   url = infStore[i]["Web"]
   print(f'{counter}/{len(infStore)}')
   if not stillThere(url, s):
     print(url)
     # print(stillThere(url))
     changed.append(url)
-  time.sleep(5)
+  time.sleep(3)
 
 print(changed)
 chgPath.write_text(json.dumps(changed, ensure_ascii=False, indent=2), encoding='UTF-8')
