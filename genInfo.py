@@ -23,6 +23,31 @@ def getSeries(st):
   core = getCore(st)
   iss = 1.0
   ser = core
+
+  # 2020年10月号
+  # 2021月2号
+  if '月' in core[-4:] and '号' in core[-4:]:
+    while (ser[-1] != ' '):
+      ser = ser[:-1]
+    ser = ser.strip()
+    return [ser, iss]
+
+  # Artist Galleries ::: 
+  if core[:16].lower() == 'artist galleries':
+    ser = core[16:].strip().strip(':').strip()
+    return [ser, iss]
+
+  # 从本子了解汉化教程
+  if core[:9] == '从本子了解汉化教程':
+    ser = '从本子了解汉化教程'
+    if core[9:][0].isdigit():
+      iss = float(core[9:][0])
+    return [ser, iss]
+
+  # 美羽ちゃんとベランダXX
+  if core == '美羽ちゃんとベランダXX':
+    return [ser, iss]
+
   # 1階
   if core[-1] == '階' and core[-2].isdigit():
     count = -2
@@ -48,13 +73,81 @@ def getSeries(st):
     # vol 1
     if ser[-3:].lower() == 'vol':
       ser = ser[:-3].strip()
+    # LEVEL:1
+    if ser[-6:].lower() == 'level:':
+      ser = ser[:-6].strip()
     # 1+2
     # 1-2
     if ser[-1:] == '+' or ser[-1:] == '-':
       iss = 1.0
       ser = core
-    # II
-    # roman numerals is too complicated, gave up
+    
+  # roman numerals
+  # Ⅰ
+  # Ⅱ
+  # Ⅲ
+  # Ⅳ
+  # Ⅴ
+  # Ⅵ
+  # Ⅶ
+  # Ⅷ
+  # Ⅸ
+  # Ⅹ
+  # Ⅺ
+  # Ⅻ
+  # XIII
+  # XIV
+  # XV
+  rn = [
+    ['Ⅰ', 1.0],
+    ['Ⅱ', 2.0],
+    ['Ⅲ', 3.0],
+    ['Ⅳ', 4.0],
+    ['Ⅴ', 5.0],
+    ['Ⅵ', 6.0],
+    ['Ⅶ', 7.0],
+    ['Ⅷ', 8.0],
+    ['Ⅸ', 9.0],
+    ['Ⅹ', 10.0],
+    ['Ⅺ', 11.0],
+    ['Ⅻ', 12.0],
+    ['XIII', 13.0],
+    ['VIII', 8.0],
+    ['XIV', 14.0],
+    ['XII', 12.0],
+    ['VII', 7.0],
+    ['III', 3.0],
+    ['XV', 15.0],
+    ['XI', 11.0],
+    ['VI', 6.0],
+    ['IX', 9.0],
+    ['IV', 4.0],
+    ['II', 2.0],
+    ['X', 10.0],
+    ['V', 5.0],
+    ['I', 1.0],
+  ]
+  for r in rn:
+    l = len(r[0])
+    if core[-l:] == r[0]:
+      ser = core[:-l].strip()
+      iss = r[1]
+      return [ser, iss]
+
+  # 援助交配
+  if core[:4] == '援助交配':
+    ser = '援助交配'
+    return [ser, iss]
+
+  # ネコぱら01 おまけ本
+  if core == 'ネコぱら01 おまけ本':
+    ser = 'ネコぱら'
+    return [ser, iss]
+
+  # Arknights Character Fan Art Gallery
+  if core[:35].lower() == 'arknights character fan art gallery':
+    ser = 'Arknights Character Fan Art Gallery'
+    return [ser, iss]
 
   return [ser, iss]
 
@@ -156,6 +249,26 @@ def genInfo(dir, verbose = False):
   # begin series
   info['coreTitle'] = getCore(info['Title'])
   info['series'], info['issue'] = getSeries(info['coreTitle'])
+  # [Pixiv]
+  # [pixiv]
+  # [Pixiv Fanbox]
+  if info['Title'][1:6].lower() == 'pixiv':
+    info['series'], info['issue'] = ['Pixiv', 1.0]
+  # [Twitter]
+  if info['Title'][1:8].lower() == 'twitter':
+    info['series'], info['issue'] = ['Twitter', 1.0]
+  # Karorfulmix♥EX
+  if info['series'] == 'Karorfulmix♥EX':
+    info['series'] = 'KARORFUL MIX EX'
+
+  cau = ['ー', '－', '-', ':', '：', '~', ']', '[', '(', ')', '「', '」', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+']
+  cauFlag = False
+  for c in cau:
+    if c in info['series']:
+      cauFlag = True
+  if cauFlag:
+    info['coreTitle']  = f"[CAUTION]{info['coreTitle']}"
+  
   #end series
 
   if info['Genre'] == 'non-h':

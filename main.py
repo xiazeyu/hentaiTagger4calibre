@@ -4,7 +4,7 @@ from writeInfo import writeInfo
 import json
 
 verbose = False
-infoOnly = True
+infoOnly = False
 
 succeeded = []
 failed = []
