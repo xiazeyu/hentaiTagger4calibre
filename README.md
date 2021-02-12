@@ -21,6 +21,7 @@ pip -r requirements.txt
 
 - Download a zip archive from one of two hentai websites
 - Use [this script](https://raw.githubusercontent.com/dnsev-h/x/master/builds/x-gallery-metadata.user.js) to get metadata in a form of info.json (from https://dnsev-h.github.io/x/), and add it into the zip file.
+- Delete all intermediate and final outputs like `inf.json`, `ser.json`, `out/`
 - Uncompress the zip file, move the output folder into `work/` subfolder.
 
 Work folder should look like this:
