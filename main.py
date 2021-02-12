@@ -12,11 +12,17 @@ failed = []
 cwd = Path.cwd()
 work = cwd / 'work'
 infPath = cwd / 'inf.json'
+serPath = cwd / 'ser.json'
 
 if infPath.exists():
   infStore = json.loads(infPath.read_text(encoding='UTF-8'))
 else:
   infStore = {}
+
+if serPath.exists():
+  serStore = json.loads(serPath.read_text(encoding='UTF-8'))
+else:
+  serStore = {}
 
 dirList = [x for x in work.iterdir() if x.is_dir()]
 
@@ -35,7 +41,14 @@ for curDirIndex in range(len(dirList)):
       failed.append([curDir.name, gr[1]])
       continue
     info = gr[1]
-    infStore[curDir.name] = info
+
+  if curDir.name in serStore:
+    print('from ser.json')
+    info['series'], info['issue'], info['coreTitle'] = serStore[curDir.name]
+  
+  serStore[curDir.name] = [info['series'], info['issue'], info['coreTitle']]
+  infStore[curDir.name] = info
+
   if not infoOnly:
     wr = writeInfo(curDir.name, info, verbose)
     if(not wr[0]):
@@ -46,6 +59,7 @@ for curDirIndex in range(len(dirList)):
   succeeded.append(curDir.name)
 
 infPath.write_text(json.dumps(infStore, ensure_ascii=False, indent=2, sort_keys=True), encoding='UTF-8')
+serPath.write_text(json.dumps(serStore, ensure_ascii=False, indent=2, sort_keys=True), encoding='UTF-8')
 
 result = {
   'succeeded_count': len(succeeded),

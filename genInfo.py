@@ -14,7 +14,46 @@ transPath = utilsPath / 'db.text.json'
 trans = json.loads(transPath.read_text(encoding='UTF-8'))
 
 def getCore(st):
-  return re.sub(u"\\(.*?\\)|\\（.*?）|\\{.*?}|\\[.*?]|\\【.*?】", "", st)
+  return re.sub(u"\\「.*?\\」|\\(.*?\\)|\\（.*?）|\\{.*?}|\\[.*?]|\\【.*?】", "", st).strip()
+
+def getSeries(st):
+  core = getCore(st)
+  iss = 1.0
+  ser = core
+  # 1階
+  if core[-1] == '階' and core[-2].isdigit():
+    count = -2
+    while core[count - 1].isdigit():
+      count = count - 1
+    ser = core[:count].strip()
+    iss = float(core[count:-1])
+    return [ser, iss]
+  # 1
+  # 01
+  # 1.5
+  if core[-1].isdigit():
+    count = -1
+    while core[count - 1].isdigit() or (core[count - 1] == '.' and core[count - 2].isdigit()):
+      count = count - 1
+    ser = core[:count].strip()
+    iss = float(core[count:])
+    # 01
+    # vol.1
+    # Vol,01
+    if ser[-1:] == '#' or ser[-1:] == '.' or ser[-1:] == ',':
+      ser = ser[:-1].strip()
+    # vol 1
+    if ser[-3:].lower() == 'vol':
+      ser = ser[:-3].strip()
+    # 1+2
+    # 1-2
+    if ser[-1:] == '+' or ser[-1:] == '-':
+      iss = 1.0
+      ser = core
+    # II
+    # roman numerals is too complicated, gave up
+
+  return [ser, iss]
 
 def gett(index, st):
   if st.lower() in trans['data'][index]['data']:
@@ -112,8 +151,8 @@ def genInfo(dir, verbose = False):
   # end characters
 
   # begin series
-  info['series'] = getCore(info['Title'])
-  info['issue'] = 1
+  info['coreTitle'] = getCore(info['Title'])
+  info['series'], info['issue'] = getSeries(info['coreTitle'])
   #end series
 
   if info['Genre'] == 'non-h':
