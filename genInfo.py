@@ -157,6 +157,14 @@ def gett(index, st):
   else:
     return None
 
+def trasgroup(d):
+  res = []
+  for i in d:
+    a = gett(i[0], i[1])
+    if a != None:
+      res.append(a)
+  return res
+
 def genInfo(dir, verbose = False):
   try:
     infoPath = dir / 'info.json'
@@ -192,8 +200,7 @@ def genInfo(dir, verbose = False):
   info['tags'] = []
 
   info['tags'].append(info['Genre'])
-  if gett(1, info['Genre']) != None:
-    info['tags'].append(gett(1, info['Genre']))
+  transtags = [[1, info['Genre']]]
 
   keywords = [
     ['language', 2],
@@ -208,14 +215,17 @@ def genInfo(dir, verbose = False):
     if typ[0] in infoJson['gallery_info']['tags']:
       for tag in infoJson['gallery_info']['tags'][typ[0]]:
         info['tags'].append(tag)
-        if gett(typ[1], tag) != None:
-          info['tags'].append(gett(typ[1], tag))
+        transtags.append([typ[1], tag])
   
-  tagInTitle=re.findall(r'\[(.+?)\]|\((.+?)\)|【(.+?)】|（(.+?)）', infoJson['gallery_info']['title'])
-  for x in tagInTitle:
-    info['tags']+=list(x)
+  rtagInTitle=re.findall(r'\[(.+?)\]|\((.+?)\)|【(.+?)】|（(.+?)）', infoJson['gallery_info']['title'])
+  tagInTitle = []
+  for x in rtagInTitle:
+    tagInTitle += list(x)
+
+  info['tags'] = trasgroup(transtags) + tagInTitle + info['tags']
   
-  info['tags'] = sorted(list(set(info['tags'])))
+  info['tags'] = list(dict.fromkeys(info['tags']))
+
   if '' in info['tags']:
     info['tags'].remove('')
 
@@ -223,27 +233,40 @@ def genInfo(dir, verbose = False):
 
   # begin writer
   info['writer'] = []
+  transwris = []
   if 'group' in infoJson['gallery_info']['tags']:
     for t in infoJson['gallery_info']['tags']['group']:
       info['writer'].append(t)
-      if gett(5, t) != None:
-        info['writer'].append(gett(5, t))
+      transwris.append([5, t])
   if 'artist' in infoJson['gallery_info']['tags']:
     for t in infoJson['gallery_info']['tags']['artist']:
       info['writer'].append(t)
-      if gett(6, t) != None:
-        info['writer'].append(gett(6, t))
-  info['writer'] = sorted(list(set(info['writer'])))
+      transwris.append([6, t])
+  tg = trasgroup(transwris)
+  ltg = [x.lower() for x in tg]
+  awrite = []
+  for x in info['writer']:
+    if x.lower() not in ltg:
+      awrite.append(x)
+  info['writer'] = tg + awrite
+  info['writer'] = list(dict.fromkeys(info['writer']))
   # end writer
 
   # begin characters
   info['characters'] = []
+  transchars = []
   if 'character' in infoJson['gallery_info']['tags']:
     for t in infoJson['gallery_info']['tags']['character']:
       info['characters'].append(t)
-      if gett(4, t) != None:
-        info['characters'].append(gett(4, t))
-  info['characters'] = sorted(list(set(info['characters'])))
+      transchars.append([4, t])
+  tg = trasgroup(transchars)
+  ltg = [x.lower() for x in tg]
+  achar = []
+  for x in info['characters']:
+    if x.lower() not in ltg:
+      achar.append(x)
+  info['characters'] = tg + achar
+  info['characters'] = list(dict.fromkeys(info['characters']))
   # end characters
 
   # begin series
