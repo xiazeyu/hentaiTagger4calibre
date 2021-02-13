@@ -13,7 +13,7 @@ This simple python3 app can convert metadata in archive zip file downloaded from
 - A plugin called [Embeded Comic metadata](https://github.com/dickloraine/EmbedComicMetadata) should be installed on calibre.
 
 ```bash
-sudo apt install python p7zip # on windows: choco install python 7zip
+sudo apt install python p7zip-full # on windows: choco install python 7zip
 pip -r requirements.txt
 ```
 
@@ -47,3 +47,9 @@ Work folder should look like this:
 - Run `python main.py` in order.
 
 The final cbz files should appear in `out/` subfolder.
+
+
+
+### Checker
+
+The `checker.py` can check whether books recorded in `inf.json` are all visible now. It is useful to use this script to track some ongoing comics since they will be replaced and become invisible. 
