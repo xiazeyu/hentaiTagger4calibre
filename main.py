@@ -45,7 +45,7 @@ for curDirIndex in range(len(dirList)):
   if curDir.name in serStore:
     print('from ser.json')
     info['series'], info['issue'] = serStore[curDir.name][:2]
-  
+
   serStore[curDir.name] = [info['series'], info['issue'], info['coreTitle'], info['Web']]
   infStore[curDir.name] = info
 
