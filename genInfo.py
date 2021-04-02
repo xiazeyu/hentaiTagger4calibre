@@ -26,6 +26,32 @@ def getSeries(st):
   iss = 1.0
   ser = core
 
+  # ①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳
+  replaceList = [
+    ('①', 1),
+    ('②', 2),
+    ('③', 3),
+    ('④', 4),
+    ('⑤', 5),
+    ('⑥', 6),
+    ('⑦', 7),
+    ('⑧', 8),
+    ('⑨', 9),
+    ('⑩', 10),
+    ('⑪', 11),
+    ('⑫', 12),
+    ('⑬', 13),
+    ('⑭', 14),
+    ('⑮', 15),
+    ('⑯', 16),
+    ('⑰', 17),
+    ('⑱', 18),
+    ('⑲', 19),
+    ('⑳', 20),
+  ]
+  for char in replaceList:
+    core = core.replace(char[0], str(char[1]))
+
   # 2020年10月号
   # 2021月2号
   if '月' in core[-4:] and '号' in core[-4:]:
@@ -34,7 +60,7 @@ def getSeries(st):
     ser = ser.strip()
     return [ser, iss]
 
-  # Artist Galleries ::: 
+  # Artist Galleries :::
   if core[:16].lower() == 'artist galleries':
     ser = core[16:].strip().strip(':').strip()
     return [ser, iss]
@@ -83,7 +109,7 @@ def getSeries(st):
     if ser[-1:] == '+' or ser[-1:] == '-':
       iss = 1.0
       ser = core
-    
+
   # roman numerals
   # Ⅰ
   # Ⅱ
@@ -174,7 +200,7 @@ def genInfo(dir, verbose = False):
     infoJson = json.loads(infoText)
   except:
     return [False, sys.exc_info()]
-  
+
   info = {}
   info['Title'] = infoJson['gallery_info']['title_original'] or infoJson['gallery_info']['title']
   info['Genre'] = infoJson['gallery_info']['category']
@@ -197,7 +223,7 @@ def genInfo(dir, verbose = False):
     info['Imprint'] = info['Imprint'].group(1)
   else:
     info['Imprint'] = infoJson['gallery_info_full']['source_site']
- 
+
   # begin tags
   info['tags'] = []
 
@@ -218,14 +244,14 @@ def genInfo(dir, verbose = False):
       for tag in infoJson['gallery_info']['tags'][typ[0]]:
         info['tags'].append(tag)
         transtags.append([typ[1], tag])
-  
+
   rtagInTitle=re.findall(r'\[(.+?)\]|\((.+?)\)|【(.+?)】|（(.+?)）', infoJson['gallery_info']['title'])
   tagInTitle = []
   for x in rtagInTitle:
     tagInTitle += list(x)
 
   info['tags'] = trasgroup(transtags) + tagInTitle + info['tags']
-  
+
   info['tags'] = list(dict.fromkeys(info['tags']))
 
   if '' in info['tags']:
@@ -293,7 +319,7 @@ def genInfo(dir, verbose = False):
       cauFlag = True
   if cauFlag:
     info['coreTitle']  = f"[CAUTION]{info['coreTitle']}"
-  
+
   #end series
 
   if info['Genre'] == 'non-h':
