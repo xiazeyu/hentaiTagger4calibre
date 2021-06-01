@@ -217,6 +217,8 @@ def genInfo(dir, verbose = False):
     info['Web'] = f'https://exhentai.org/g/{infoJson["gallery_info"]["source"]["gid"]}/{infoJson["gallery_info"]["source"]["token"]}/'
   elif infoJson['gallery_info']['source']['site'] == 'e-hentai':
     info['Web'] = f'https://e-hentai.org/g/{infoJson["gallery_info"]["source"]["gid"]}/{infoJson["gallery_info"]["source"]["token"]}/'
+  elif infoJson['gallery_info']['source']['site'] == 'acg18':
+    info['Web'] = f'https://acg18.moe/{infoJson["gallery_info"]["source"]["gid"]}.html'
 
   info['Imprint'] = re.match(r'^(?:\()(.+?)(?:\))', infoJson['gallery_info']['title'])
   if(info['Imprint'] != None):

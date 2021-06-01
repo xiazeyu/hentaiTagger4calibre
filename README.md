@@ -5,7 +5,7 @@ A tag converter for calibre
 
 ### Introduction
 
-This simple python3 app can convert metadata in archive zip file downloaded from e-hentai or exhentai to a format that calibre can recognize. 
+This simple python3 app can convert metadata in archive zip file downloaded from e-hentai or exhentai to a format that calibre can recognize.
 
 ### Requirements
 
@@ -27,19 +27,19 @@ pip -r requirements.txt
 Work folder should look like this:
 
 ```
-│  1_info.py         
-│  2_compress.cmd    
-│  3_zipNote.py      
-│                    
-└─work               
-    ├─commic1        
-    │      1.png     
-    │      2.png     
-    │      info.json 
-    │                
-    └─commic2        
-            1.png    
-            2.png    
+│  1_info.py
+│  2_compress.cmd
+│  3_zipNote.py
+│
+└─work
+    ├─commic1
+    │      1.png
+    │      2.png
+    │      info.json
+    │
+    └─commic2
+            1.png
+            2.png
             info.json
 ```
 
@@ -52,4 +52,6 @@ The final cbz files should appear in `out/` subfolder.
 
 ### Checker
 
-The `checker.py` can check whether books recorded in `inf.json` are all visible now. It is useful to use this script to track some ongoing comics since they will be replaced and become invisible. 
+Specify your cbz path in `checker_custom_path.py`, and run it. It will help you check if your books are up-to-date.
+
+~~The `checker.py` can check whether books recorded in `inf.json` are all visible now. It is useful to use this script to track some ongoing comics since they will be replaced and become invisible. ~~
