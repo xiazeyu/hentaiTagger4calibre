@@ -3,6 +3,26 @@ A tag converter for calibre
 
 ---
 
+
+### 注意
+
+我为了提示阅读体验，已经迁移到了 [LANraragi](https://github.com/Difegue/LANraragi). 因此这个repo将不那么频繁地进行维护。
+
+LANraragi的优点:
+
+- Calibre-web 在线阅读时需要 **加载整个cbz文件**, LANraragi 支持 **服务端解压加载，传输单张图片给浏览器**.
+- 支持**直接输入 e-hentai 网址** 下载本子, 支持 **自动从 e-hentai 和 n-hentai 下载标签标题信息**.
+- 更好的**标签管理**, 尤其适合本子 **有许多标签** 的情形, calibre-web里存在太多标签会使得标签系统失去作用.
+- **不更改文件的hash值**, 因此下载的问价你可以直接从 e-hentai 服务器溯源，或是作为种子文件再次上传.
+
+这个脚本的优点:
+
+- 支持嵌入 **eze 的 info.json**, 意味着不想LANraragi将信息单独存放在它自己的数据库中， **所有的** 元信息 **都和本子在一起**.
+- 支持检查画廊更新，有时候有些画廊会，每周更新，这个脚本可以方便地将其捞出来.
+- **精准地导入元数据**, 当多个汉化组同时汉化一本本子时，LANraragi自带的搜刮器可能会下错翻译组的信息.
+- **兼容** 包括 calibre and LANraragi 在内的所有阅读方案.
+
+
 ### Notice
 
 I have migrated to [LANraragi](https://github.com/Difegue/LANraragi) due to its better web reading experience. So this repo is maintained in a less frequent status.
