@@ -3,6 +3,24 @@ A tag converter for calibre
 
 ---
 
+### Notice
+
+I have migrated to [LANraragi](https://github.com/Difegue/LANraragi) due to its better web reading experience. So this repo is maintained in a less frequent status.
+
+Advantages in LANraragi:
+
+- Calibre-web requires **loading of the whole cbz file**, and LANraragi supports decompress cbz file **at server-side**.
+- Support direct download **by inputing the e-hentai url**, and support **automatically scrub the meta info from e-hentai and n-hentai**.
+- Better **tag management**, especially designed for commic files with **lots of tags**, in calibre-web, too much tag makes the whole tag system unavailable to use.
+- **Not modify the hash of the archive**, means that using that hash, the archive can be found more easily on e-hentai server, or be uploaded as a bittorrent file.
+
+Advantages of this script:
+
+- support embedding **eze info.json**, which means **all** meta infos are **with the cbz file**, not like LANraragi, meta infomation are stored in its seperated database.
+- support checking for update. Sometimes some galley will have new images uploaded, this script can help find these out-dated archives.
+- **More precise while importing meta**, when importing with LANraragi, some meta may be downloaded from the wrong galley, may caused by multiple translation group are translating the same galley.
+- **compatible** with all solutions like calibre and LANraragi
+
 ### Introduction
 
 This simple python3 app can convert metadata in archive zip file downloaded from e-hentai or exhentai to a format that calibre can recognize.
